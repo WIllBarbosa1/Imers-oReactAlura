@@ -1,1 +1,3 @@
-# Imers-oReactAlura
+# ImersãoReactAlura
+
+Projeto criado na imerção React da Alura
