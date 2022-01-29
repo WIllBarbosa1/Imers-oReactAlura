@@ -36,7 +36,7 @@ export default function HomePage() {
                     alignItems: "center",
                     justifyContent: "center",
                     backgroundColor: appConfig.theme.colors.primary[500],
-                    backgroundImage: "url(https://thumbs.gfycat.com/QualifiedUncommonAvocet-size_restricted.gif)",
+                    backgroundImage: "url(https://c.tenor.com/b_xNRUNcjt4AAAAC/retro-wave.gif)",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
