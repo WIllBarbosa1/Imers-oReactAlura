@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
 
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzUwMDQxMywiZXhwIjoxOTU5MDc2NDEzfQ.JmCt3LTHB8-AKJNLBZXaJqh-SEIey_sN5dyUhK86rf0"
 const SUPABASE_URL = "https://zoqpvvhkiogokkguokob.supabase.co"
@@ -10,10 +11,22 @@ const supabaseCliente = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export default function ChatPage() {
 
-    const [mensage, setMensage] = useState("")
-    const [mensageList, setMensageList] = useState([])
     const router = useRouter()
     const user = router.query.username
+
+    const [mensage, setMensage] = useState("")
+    const [mensageList, setMensageList] = useState([
+        // {
+        //     id: 1,
+        //     from: 'WillBarbosa1',
+        //     text: ':sticker: https://c.tenor.com/TKpmh4WFEsAAAAAC/alura-gaveta-filmes.gif',
+        // },
+        // {
+        //     id: 2,
+        //     from: 'peas',
+        //     text: 'O ternario é triste',
+        // },
+    ])
 
     useEffect(() => {
         supabaseCliente.from("mensages").select("*").order("id", { ascending: false }).then(({ data }) => {
@@ -112,9 +125,25 @@ export default function ChatPage() {
                                 color: appConfig.theme.colors.neutrals[200],
                             }}
                         />
+                        <ButtonSendSticker
+                            onStickerClick={(sticker) => {
+                                handleNewMensage(`:sticker: ${sticker}`)
+                            }}
+                        />
                         <Button
                             iconName='arrowRight'
                             styleSheet={{
+                                borderRadius: '50%',
+                                padding: '0 3px 0 0',
+                                minWidth: '50px',
+                                minHeight: '50px',
+                                fontSize: '20px',
+                                marginBottom: '8px',
+                                marginLeft: '8px',
+                                lineHeight: '0',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                                 color: "white",
                             }}
                             buttonColors={{
@@ -143,7 +172,6 @@ function Header() {
                 </Text>
                 <Button
                     variant='secondary'
-                    colorVariant='negative'
                     label='Logout'
                     href="/"
                 />
@@ -236,7 +264,14 @@ function MessageList(props) {
                                 }}
                             />
                         </Box>
-                        {mensagem.text}
+                        {mensagem.text.startsWith(':sticker:')
+                            ? (
+                                <Image src={mensagem.text.replace(':sticker:', '')} />
+                            )
+                            : (
+                                mensagem.text
+                            )
+                        }
                     </Text>
                 )
             })}
