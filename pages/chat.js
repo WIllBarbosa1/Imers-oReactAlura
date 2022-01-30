@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
 import Modal from '../src/components/ModalGithub';
+import Load from '../src/components/Load';
 
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzUwMDQxMywiZXhwIjoxOTU5MDc2NDEzfQ.JmCt3LTHB8-AKJNLBZXaJqh-SEIey_sN5dyUhK86rf0"
 const SUPABASE_URL = "https://zoqpvvhkiogokkguokob.supabase.co"
@@ -92,8 +93,11 @@ export default function ChatPage() {
                             padding: '16px',
                         }}
                     >
-
-                        <MessageList mensagens={mensageList} onOpen={() => setIsModalOpen(true)} onModalUser={(user) => setModalUser(user)} />
+                        {
+                            mensageList.length === 0
+                                ? <Load />
+                                : <MessageList mensagens={mensageList} onOpen={() => setIsModalOpen(true)} onModalUser={(user) => setModalUser(user)} />
+                        }
 
                         <Box
                             as="form"

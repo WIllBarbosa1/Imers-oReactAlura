@@ -58,7 +58,7 @@ function Modal({ onClose, user }) {
                         color: '#FFF',
                     }}
                 >
-                    <h2>{user}</h2>
+                    <h2 className="cyber-font">{user}</h2>
                     <Button
                         label="Close"
                         onClick={onClose}

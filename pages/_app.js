@@ -25,6 +25,11 @@ function GlobalStyle() {
             #__next > * {
                 flex: 1;
             }
+
+            .cyber-font {
+                font-family: "Press Start 2P", cursive;
+            }
+            
         `}</style>
     )
 }
