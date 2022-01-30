@@ -1,20 +1,35 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import appConfig from '../config.json';
+import { createClient } from '@supabase/supabase-js';
+
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzUwMDQxMywiZXhwIjoxOTU5MDc2NDEzfQ.JmCt3LTHB8-AKJNLBZXaJqh-SEIey_sN5dyUhK86rf0"
+const SUPABASE_URL = "https://zoqpvvhkiogokkguokob.supabase.co"
+const supabaseCliente = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export default function ChatPage() {
-    // Sua lógica vai aqui
+
     const [mensage, setMensage] = useState("")
     const [mensageList, setMensageList] = useState([])
-    // ./Sua lógica vai aqui
+
+    useEffect(() => {
+        supabaseCliente.from("mensages").select("*").order("id", { ascending: false }).then(({ data }) => {
+            setMensageList([...data])
+        })
+    }, [])
 
     function handleNewMensage(newMensage) {
         const menssage = {
-            id: mensageList.length + 1,
-            from: "Will de Azevedo",
+            from: "WillBarbosa1",
             text: newMensage
         }
-        setMensageList([menssage, ...mensageList])
+
+        supabaseCliente.from("mensages").insert([
+            menssage
+        ]).then(({ data }) => {
+            setMensageList([data[0], ...mensageList])
+        })
+
         setMensage("")
     }
 
@@ -56,13 +71,7 @@ export default function ChatPage() {
                         padding: '16px',
                     }}
                 >
-                    {/* Lista de Mensagens: {mensageList.map((mens) => {
-                        return (
-                            <li key={mens.id}>
-                                {mens.from}: {mens.text}
-                            </li>
-                        )
-                    })} */}
+
                     <MessageList mensagens={mensageList} />
 
                     <Box
@@ -101,10 +110,9 @@ export default function ChatPage() {
                             }}
                         />
                         <Button
-                            label='Send'
+                            iconName='arrowRight'
                             styleSheet={{
                                 color: "white",
-                                //     backgroundColor: appConfig.theme.colors.primary[500]
                             }}
                             buttonColors={{
                                 contrastColor: "#FFF",
@@ -142,7 +150,6 @@ function Header() {
 }
 
 function MessageList(props) {
-    console.log('MessageList', props);
     const { mensagens } = props
 
     return (
@@ -184,16 +191,22 @@ function MessageList(props) {
                                     display: "flex",
                                 }}
                             >
-                                <Image
-                                    styleSheet={{
-                                        width: '20px',
-                                        height: '20px',
-                                        borderRadius: '50%',
-                                        display: 'inline-block',
-                                        marginRight: '8px',
-                                    }}
-                                    src={`https://github.com/github.png`}
-                                />
+                                <a href={`https://github.com/${mensagem.from}`} target="_blank">
+                                    <Image
+                                        styleSheet={{
+                                            width: '20px',
+                                            height: '20px',
+                                            borderRadius: '50%',
+                                            display: 'inline-block',
+                                            marginRight: '8px',
+                                        }}
+                                        src={`https://github.com/${mensagem.from}.png`}
+                                        onDoubleClick={() => {
+                                            console.log("Ola voce me conhece?")
+
+                                        }}
+                                    />
+                                </a>
                                 <Text tag="strong">
                                     {mensagem.from}
                                 </Text>
@@ -211,7 +224,6 @@ function MessageList(props) {
                             <Button
                                 styleSheet={{
                                     color: "white",
-                                    //     backgroundColor: appConfig.theme.colors.primary[500]
                                 }}
                                 buttonColors={{
                                     contrastColor: "#FFF",
@@ -220,7 +232,6 @@ function MessageList(props) {
                                     mainColorStrong: appConfig.theme.colors.primary[700],
                                 }}
                                 label='Delete'
-                                // variant='secondary'
                                 onClick={() => {
                                     console.warn("Em desenvolvimento!")
                                 }}
