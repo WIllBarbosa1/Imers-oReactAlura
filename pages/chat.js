@@ -9,28 +9,29 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5v
 const SUPABASE_URL = "https://zoqpvvhkiogokkguokob.supabase.co"
 const supabaseCliente = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+function listnerRealTimeMensages(addMensage) {
+    return supabaseCliente.from("mensages").on('INSERT', ({ new: newMensage }) => {
+        addMensage(newMensage)
+    }).subscribe()
+}
+
 export default function ChatPage() {
 
     const router = useRouter()
     const user = router.query.username
 
     const [mensage, setMensage] = useState("")
-    const [mensageList, setMensageList] = useState([
-        // {
-        //     id: 1,
-        //     from: 'WillBarbosa1',
-        //     text: ':sticker: https://c.tenor.com/TKpmh4WFEsAAAAAC/alura-gaveta-filmes.gif',
-        // },
-        // {
-        //     id: 2,
-        //     from: 'peas',
-        //     text: 'O ternario é triste',
-        // },
-    ])
+    const [mensageList, setMensageList] = useState([])
 
     useEffect(() => {
         supabaseCliente.from("mensages").select("*").order("id", { ascending: false }).then(({ data }) => {
             setMensageList([...data])
+        })
+
+        listnerRealTimeMensages((newMensage) => {
+            setMensageList((mensageList) => {
+                return [newMensage, ...mensageList]
+            })
         })
     }, [])
 
@@ -43,7 +44,7 @@ export default function ChatPage() {
         supabaseCliente.from("mensages").insert([
             menssage
         ]).then(({ data }) => {
-            setMensageList([data[0], ...mensageList])
+
         })
 
         setMensage("")
@@ -57,7 +58,7 @@ export default function ChatPage() {
                 backgroundColor: appConfig.theme.colors.primary[500],
                 backgroundImage: `url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)`,
                 backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
-                color: appConfig.theme.colors.neutrals['000']
+                color: appConfig.theme.colors.neutrals['000'], padding: '5%'
             }}
         >
             <Box
