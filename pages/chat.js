@@ -4,6 +4,7 @@ import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
+import Modal from '../src/components/ModalGithub';
 
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzUwMDQxMywiZXhwIjoxOTU5MDc2NDEzfQ.JmCt3LTHB8-AKJNLBZXaJqh-SEIey_sN5dyUhK86rf0"
 const SUPABASE_URL = "https://zoqpvvhkiogokkguokob.supabase.co"
@@ -22,6 +23,8 @@ export default function ChatPage() {
 
     const [mensage, setMensage] = useState("")
     const [mensageList, setMensageList] = useState([])
+    const [ismodalOpen, setIsModalOpen] = useState(false)
+    const [modalUser, setModalUser] = useState(user)
 
     useEffect(() => {
         supabaseCliente.from("mensages").select("*").order("id", { ascending: false }).then(({ data }) => {
@@ -89,7 +92,7 @@ export default function ChatPage() {
                     }}
                 >
 
-                    <MessageList mensagens={mensageList} />
+                    <MessageList mensagens={mensageList} onOpen={() => setIsModalOpen(true)} onModalUser={(user) => setModalUser(user)} />
 
                     <Box
                         as="form"
@@ -160,6 +163,12 @@ export default function ChatPage() {
                     </Box>
                 </Box>
             </Box>
+
+            {ismodalOpen && <Modal
+                onClose={() => setIsModalOpen(false)}
+                user={modalUser}
+            />}
+
         </Box>
     )
 }
@@ -182,7 +191,7 @@ function Header() {
 }
 
 function MessageList(props) {
-    const { mensagens } = props
+    const { mensagens, onOpen, onModalUser } = props
 
     return (
         <Box
@@ -223,18 +232,20 @@ function MessageList(props) {
                                     display: "flex",
                                 }}
                             >
-                                <a href={`https://github.com/${mensagem.from}`} target="_blank">
-                                    <Image
-                                        styleSheet={{
-                                            width: '20px',
-                                            height: '20px',
-                                            borderRadius: '50%',
-                                            display: 'inline-block',
-                                            marginRight: '8px',
-                                        }}
-                                        src={`https://github.com/${mensagem.from}.png`}
-                                    />
-                                </a>
+                                <Image
+                                    styleSheet={{
+                                        width: '20px',
+                                        height: '20px',
+                                        borderRadius: '50%',
+                                        display: 'inline-block',
+                                        marginRight: '8px',
+                                    }}
+                                    src={`https://github.com/${mensagem.from}.png`}
+                                    onClick={() => {
+                                        onOpen(true)
+                                        onModalUser(mensagem.from)
+                                    }}
+                                />
                                 <Text tag="strong">
                                     {mensagem.from}
                                 </Text>
