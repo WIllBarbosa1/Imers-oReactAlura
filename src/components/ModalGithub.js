@@ -54,7 +54,8 @@ function Modal({ onClose, user }) {
                     styleSheet={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        color: '#FFF',
                     }}
                 >
                     <h2>{user}</h2>
