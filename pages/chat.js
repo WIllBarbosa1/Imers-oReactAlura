@@ -249,7 +249,7 @@ function MessageList(props) {
                                     {(new Date().toLocaleDateString())}
                                 </Text>
                             </Box>
-                            <Button
+                            {/* <Button
                                 styleSheet={{
                                     color: "white",
                                 }}
@@ -263,7 +263,7 @@ function MessageList(props) {
                                 onClick={() => {
                                     console.warn("Em desenvolvimento!")
                                 }}
-                            />
+                            /> */}
                         </Box>
                         {mensagem.text.startsWith(':sticker:')
                             ? (
