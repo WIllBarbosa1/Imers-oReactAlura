@@ -55,121 +55,123 @@ export default function ChatPage() {
 
 
     return (
-        <Box
-            styleSheet={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backgroundColor: appConfig.theme.colors.primary[500],
-                backgroundImage: `url(https://i.pinimg.com/originals/13/31/20/13312045ba691fcb8d1fbae330d937e0.gif)`,
-                backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
-                color: appConfig.theme.colors.neutrals['000'], padding: '5%'
-            }}
-        >
+        <>
             <Box
                 styleSheet={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flex: 1,
-                    boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
-                    borderRadius: '5px',
-                    backgroundColor: appConfig.theme.colors.neutrals[700],
-                    height: '100%',
-                    maxWidth: '95%',
-                    maxHeight: '95vh',
-                    padding: '32px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backgroundColor: appConfig.theme.colors.primary[500],
+                    backgroundImage: `url(https://i.pinimg.com/originals/13/31/20/13312045ba691fcb8d1fbae330d937e0.gif)`,
+                    backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
+                    color: appConfig.theme.colors.neutrals['000'], padding: '5%'
                 }}
             >
-                <Header />
                 <Box
                     styleSheet={{
-                        position: 'relative',
                         display: 'flex',
-                        flex: 1,
-                        height: '80%',
-                        backgroundColor: appConfig.theme.colors.neutrals[600],
                         flexDirection: 'column',
+                        flex: 1,
+                        boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
                         borderRadius: '5px',
-                        padding: '16px',
+                        backgroundColor: appConfig.theme.colors.neutrals[700],
+                        height: '100%',
+                        maxWidth: '95%',
+                        maxHeight: '95vh',
+                        padding: '32px',
                     }}
                 >
-
-                    <MessageList mensagens={mensageList} onOpen={() => setIsModalOpen(true)} onModalUser={(user) => setModalUser(user)} />
-
+                    <Header />
                     <Box
-                        as="form"
                         styleSheet={{
+                            position: 'relative',
                             display: 'flex',
-                            alignItems: 'center',
+                            flex: 1,
+                            height: '80%',
+                            backgroundColor: appConfig.theme.colors.neutrals[600],
+                            flexDirection: 'column',
+                            borderRadius: '5px',
+                            padding: '16px',
                         }}
                     >
-                        <TextField
-                            value={mensage}
-                            onChange={(event) => {
-                                const { target: { value } } = event
-                                setMensage(value)
-                            }}
-                            onKeyPress={(event) => {
 
-                                const { key } = event;
+                        <MessageList mensagens={mensageList} onOpen={() => setIsModalOpen(true)} onModalUser={(user) => setModalUser(user)} />
 
-                                if (key === "Enter") {
-                                    event.preventDefault()
-                                    handleNewMensage(mensage)
-                                }
-                            }}
-                            placeholder="Insira sua mensagem aqui..."
-                            type="textarea"
+                        <Box
+                            as="form"
                             styleSheet={{
-                                width: '100%',
-                                border: '0',
-                                resize: 'none',
-                                borderRadius: '5px',
-                                padding: '6px 8px',
-                                backgroundColor: appConfig.theme.colors.neutrals[800],
-                                marginRight: '12px',
-                                color: appConfig.theme.colors.neutrals[200],
-                            }}
-                        />
-                        <ButtonSendSticker
-                            onStickerClick={(sticker) => {
-                                handleNewMensage(`:sticker: ${sticker}`)
-                            }}
-                        />
-                        <Button
-                            iconName='arrowRight'
-                            styleSheet={{
-                                borderRadius: '50%',
-                                padding: '0 3px 0 0',
-                                minWidth: '50px',
-                                minHeight: '50px',
-                                fontSize: '20px',
-                                marginBottom: '8px',
-                                marginLeft: '8px',
-                                lineHeight: '0',
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'center',
-                                color: "white",
                             }}
-                            buttonColors={{
-                                contrastColor: "#FFF",
-                                mainColor: appConfig.theme.colors.primary[500],
-                                mainColorLight: appConfig.theme.colors.primary[300],
-                                mainColorStrong: appConfig.theme.colors.primary[700],
-                            }}
-                            onClick={() => {
-                                handleNewMensage(mensage)
-                            }}
-                        />
+                        >
+                            <TextField
+                                value={mensage}
+                                onChange={(event) => {
+                                    const { target: { value } } = event
+                                    setMensage(value)
+                                }}
+                                onKeyPress={(event) => {
+
+                                    const { key } = event;
+
+                                    if (key === "Enter") {
+                                        event.preventDefault()
+                                        handleNewMensage(mensage)
+                                    }
+                                }}
+                                placeholder="Insira sua mensagem aqui..."
+                                type="textarea"
+                                styleSheet={{
+                                    width: '100%',
+                                    border: '0',
+                                    resize: 'none',
+                                    borderRadius: '5px',
+                                    padding: '6px 8px',
+                                    backgroundColor: appConfig.theme.colors.neutrals[800],
+                                    marginRight: '12px',
+                                    color: appConfig.theme.colors.neutrals[200],
+                                }}
+                            />
+                            <ButtonSendSticker
+                                onStickerClick={(sticker) => {
+                                    handleNewMensage(`:sticker: ${sticker}`)
+                                }}
+                            />
+                            <Button
+                                iconName='arrowRight'
+                                styleSheet={{
+                                    borderRadius: '50%',
+                                    padding: '0 3px 0 0',
+                                    minWidth: '50px',
+                                    minHeight: '50px',
+                                    fontSize: '20px',
+                                    marginBottom: '8px',
+                                    marginLeft: '8px',
+                                    lineHeight: '0',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: "white",
+                                }}
+                                buttonColors={{
+                                    contrastColor: "#FFF",
+                                    mainColor: appConfig.theme.colors.primary[500],
+                                    mainColorLight: appConfig.theme.colors.primary[300],
+                                    mainColorStrong: appConfig.theme.colors.primary[700],
+                                }}
+                                onClick={() => {
+                                    handleNewMensage(mensage)
+                                }}
+                            />
+                        </Box>
                     </Box>
                 </Box>
-            </Box>
 
+
+            </Box>
             {ismodalOpen && <Modal
                 onClose={() => setIsModalOpen(false)}
                 user={modalUser}
             />}
-
-        </Box>
+        </>
     )
 }
 
