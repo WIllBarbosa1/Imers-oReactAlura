@@ -2,6 +2,7 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React, { useState, useEffect } from 'react';
 import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzUwMDQxMywiZXhwIjoxOTU5MDc2NDEzfQ.JmCt3LTHB8-AKJNLBZXaJqh-SEIey_sN5dyUhK86rf0"
 const SUPABASE_URL = "https://zoqpvvhkiogokkguokob.supabase.co"
@@ -11,6 +12,8 @@ export default function ChatPage() {
 
     const [mensage, setMensage] = useState("")
     const [mensageList, setMensageList] = useState([])
+    const router = useRouter()
+    const user = router.query.username
 
     useEffect(() => {
         supabaseCliente.from("mensages").select("*").order("id", { ascending: false }).then(({ data }) => {
@@ -20,7 +23,7 @@ export default function ChatPage() {
 
     function handleNewMensage(newMensage) {
         const menssage = {
-            from: "WillBarbosa1",
+            from: user,
             text: newMensage
         }
 
@@ -201,10 +204,6 @@ function MessageList(props) {
                                             marginRight: '8px',
                                         }}
                                         src={`https://github.com/${mensagem.from}.png`}
-                                        onDoubleClick={() => {
-                                            console.log("Ola voce me conhece?")
-
-                                        }}
                                     />
                                 </a>
                                 <Text tag="strong">
