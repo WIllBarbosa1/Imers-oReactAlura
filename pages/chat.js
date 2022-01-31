@@ -236,6 +236,7 @@ function MessageList(props) {
                                 styleSheet={{
                                     marginBottom: '8px',
                                     display: "flex",
+                                    alignItems: "center",
                                 }}
                             >
                                 <Image
@@ -253,7 +254,7 @@ function MessageList(props) {
                                     }}
                                 />
                                 <Text tag="strong">
-                                    {mensagem.from}
+                                    <a href={`https://github.com/${mensagem.from}`} target='_blank' className='link'>{mensagem.from}</a>
                                 </Text>
                                 <Text
                                     styleSheet={{

@@ -30,6 +30,16 @@ function GlobalStyle() {
                 font-family: "Press Start 2P", cursive;
             }
             
+            .link {
+                font-family: "Press Start 2P", cursive;
+                font-size: small;
+                text-decoration: none;
+                color: white;
+            }
+
+            .link:hover{
+                color: #4F008F;
+            }
         `}</style>
     )
 }
